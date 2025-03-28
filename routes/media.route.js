@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../utils/upload.js";
+import upload from "../utils/multer.js";
 import cloudinary from "cloudinary";
 import streamifier from "streamifier";
 
