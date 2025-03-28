@@ -22,12 +22,12 @@ const PORT = process.env.PORT || 3001;
 // Basic middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? process.env.FRONTEND_URL || "https://yourdomain.com" 
-        : "http://localhost:5173",
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-HTTP-Method-Override']
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.FRONTEND_URL || "https://yourdomain.com"
+    : "http://localhost:5173",
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-HTTP-Method-Override']
 }));
 
 // Increase the payload size limit for all requests
@@ -37,12 +37,12 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Configure middleware based on content-type
 app.use((req, res, next) => {
   const contentType = req.headers['content-type'] || '';
-  
+
   // Skip JSON parsing for multipart form requests
   if (contentType.includes('multipart/form-data')) {
     return next();
   }
-  
+
   next();
 });
 
@@ -70,7 +70,7 @@ app.use((err, req, res, next) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Global error handler:', err);
-  
+
   // Handle specific error types
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({
@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
       error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
   }
-  
+
   // Handle entity.too.large error (for JSON requests)
   if (err.type === 'entity.too.large') {
     return res.status(413).json({
@@ -88,7 +88,7 @@ app.use((err, req, res, next) => {
       error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
   }
-  
+
   res.status(500).json({
     success: false,
     message: err.message || 'Something went wrong!',
@@ -96,10 +96,10 @@ app.use((err, req, res, next) => {
   });
 });
 app.get("/", (req, res) => {
-    res.send("Server is running");
+  res.send("Server is running");
 });
 app.listen(PORT, () => {
-    console.log(`Server listen at port ${PORT}`);
+  console.log(`Server listen at port ${PORT}`);
 })
 
 
