@@ -21,16 +21,18 @@ const PORT = process.env.PORT || 3001;
 
 // Basic middleware
 app.use(cookieParser());
+
+// CORS configuration
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://avishkar-frontend.vercel.app"
-  ],
+  origin: true, // Allow all origins in development
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-HTTP-Method-Override', 'Cookie'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-HTTP-Method-Override', 'Cookie', 'Accept'],
   exposedHeaders: ['Set-Cookie']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // Increase the payload size limit for all requests
 app.use(express.json({ limit: '10mb' }));
