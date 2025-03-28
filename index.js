@@ -22,12 +22,14 @@ const PORT = process.env.PORT || 3001;
 // Basic middleware
 app.use(cookieParser());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? process.env.FRONTEND_URL || "https://yourdomain.com"
-    : "http://localhost:5173",
+  origin: [
+    "http://localhost:5173",
+    "https://avishkar-frontend.vercel.app"
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-HTTP-Method-Override']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-HTTP-Method-Override', 'Cookie'],
+  exposedHeaders: ['Set-Cookie']
 }));
 
 // Increase the payload size limit for all requests
